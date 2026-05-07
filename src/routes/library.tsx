@@ -14,6 +14,28 @@ export const Route = createFileRoute("/library")({
   component: Library,
 });
 
+function FilterRow({ label, options, value, onChange }: { label: string; options: readonly string[]; value: string; onChange: (v: string) => void }) {
+  return (
+    <div>
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+      <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto pb-1">
+        {options.map((o) => {
+          const active = o === value;
+          return (
+            <button
+              key={o}
+              onClick={() => onChange(o)}
+              className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-smooth active:scale-95 ${active ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground border border-border"}`}
+            >
+              {o}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Library() {
   const [active, setActive] = useState<(typeof categories)[number]>("All");
   const [saved, setSaved] = useState<Set<string>>(new Set());
