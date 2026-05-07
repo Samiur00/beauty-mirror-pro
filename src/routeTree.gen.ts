@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TryOnRouteImport } from './routes/try-on'
+import { Route as LibraryRouteImport } from './routes/library'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TryOnRoute = TryOnRouteImport.update({
   id: '/try-on',
   path: '/try-on',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof HomeRoute
+  '/library': typeof LibraryRoute
   '/try-on': typeof TryOnRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home': typeof HomeRoute
+  '/library': typeof LibraryRoute
   '/try-on': typeof TryOnRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/home': typeof HomeRoute
+  '/library': typeof LibraryRoute
   '/try-on': typeof TryOnRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home' | '/try-on'
+  fullPaths: '/' | '/home' | '/library' | '/try-on'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/try-on'
-  id: '__root__' | '/' | '/home' | '/try-on'
+  to: '/' | '/home' | '/library' | '/try-on'
+  id: '__root__' | '/' | '/home' | '/library' | '/try-on'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomeRoute: typeof HomeRoute
+  LibraryRoute: typeof LibraryRoute
   TryOnRoute: typeof TryOnRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/try-on'
       fullPath: '/try-on'
       preLoaderRoute: typeof TryOnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomeRoute: HomeRoute,
+  LibraryRoute: LibraryRoute,
   TryOnRoute: TryOnRoute,
 }
 export const routeTree = rootRouteImport
