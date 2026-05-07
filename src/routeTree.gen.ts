@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TryOnRouteImport } from './routes/try-on'
 import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as ProductsRouteImport } from './routes/products'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as IndexRouteImport } from './routes/index'
@@ -24,11 +23,6 @@ const TryOnRoute = TryOnRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProductsRoute = ProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -51,7 +45,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof HomeRoute
   '/library': typeof LibraryRoute
-  '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/try-on': typeof TryOnRoute
 }
@@ -59,7 +52,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home': typeof HomeRoute
   '/library': typeof LibraryRoute
-  '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/try-on': typeof TryOnRoute
 }
@@ -68,30 +60,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/home': typeof HomeRoute
   '/library': typeof LibraryRoute
-  '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/try-on': typeof TryOnRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home' | '/library' | '/products' | '/profile' | '/try-on'
+  fullPaths: '/' | '/home' | '/library' | '/profile' | '/try-on'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/library' | '/products' | '/profile' | '/try-on'
-  id:
-    | '__root__'
-    | '/'
-    | '/home'
-    | '/library'
-    | '/products'
-    | '/profile'
-    | '/try-on'
+  to: '/' | '/home' | '/library' | '/profile' | '/try-on'
+  id: '__root__' | '/' | '/home' | '/library' | '/profile' | '/try-on'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomeRoute: typeof HomeRoute
   LibraryRoute: typeof LibraryRoute
-  ProductsRoute: typeof ProductsRoute
   ProfileRoute: typeof ProfileRoute
   TryOnRoute: typeof TryOnRoute
 }
@@ -110,13 +93,6 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/products': {
-      id: '/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -147,10 +123,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomeRoute: HomeRoute,
   LibraryRoute: LibraryRoute,
-  ProductsRoute: ProductsRoute,
   ProfileRoute: ProfileRoute,
   TryOnRoute: TryOnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

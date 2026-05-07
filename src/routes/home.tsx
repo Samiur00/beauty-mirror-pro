@@ -16,11 +16,7 @@ export const Route = createFileRoute("/home")({
 function HomePage() {
   return (
     <MobileShell>
-      <header className="flex items-center justify-between px-6 pt-12 pb-4">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-accent">Welcome back</p>
-          <h1 className="font-display text-2xl font-semibold">Hello, Beautiful</h1>
-        </div>
+      <header className="flex items-center justify-end px-6 pt-12 pb-4">
         <div className="flex items-center gap-2">
           <button className="grid h-10 w-10 place-items-center rounded-2xl bg-card shadow-card text-foreground transition-smooth active:scale-95">
             <Search size={18} />
