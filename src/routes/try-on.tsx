@@ -73,7 +73,7 @@ function TryOn() {
       // Short delay to let canvas render
       setTimeout(() => {
         deepARRef.current = window.DeepAR({
-          licenseKey: import.meta.env.VITE_DEEPAR_LICENSE_KEY ?? "",
+          licenseKey: "cfc1183bc0fa424f96532476eb1f5794863eaeef83813950768aa0d96c4f8d45b22bb695e5305168",
           canvas: canvasRef.current,
           numberOfFaces: 1,
           onInitialize: () => {
